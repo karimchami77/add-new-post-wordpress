@@ -34,7 +34,7 @@ add_shortcode( 'custom-form', 'custom_form_shortcode' );
 function process_custom_form() {
   global $wpdb;
   // Vérifie si le formulaire a été soumis
-  if (isset($_POST['title']) && isset($_POST['text'])) {
+  if (isset($_POST['title']) && isset($_POST['text']) && !empty($_POST['title']) && !empty($_POST['text'])) {
     $title = $_POST['title'];
     $text = $_POST['text'];
     // Vérifie si un article avec le même titre existe déjà
@@ -54,6 +54,9 @@ function process_custom_form() {
       // Affiche un message de confirmation
       echo '<p>L\'article intitulé "' . $title . '" a été créé avec succès.</p>';
     }
+  } else if (isset($_POST['submit']) && $_POST['submit'] == 'Envoyer') {
+    // Affiche un message d'erreur si les champs sont vides
+    echo '<p>Veuillez remplir tous les champs du formulaire.</p>';
   }
 }
 // Appelle la fonction de traitement du formulaire lors de l'exécution de l'hook "init"
